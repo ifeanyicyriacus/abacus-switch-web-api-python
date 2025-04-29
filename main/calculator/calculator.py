@@ -83,6 +83,7 @@ def evaluate_subtractions(expression_list: list) -> list:
 def calculate(expression: str) -> float:
     expression_list = generate_expression_list(expression)
     # parenthesis priority : a recursive function that calls this calculate function
+
     expression_list = evaluate_multiplications(expression_list)
     expression_list = evaluate_divisions(expression_list)
     expression_list = evaluate_remainders(expression_list)
