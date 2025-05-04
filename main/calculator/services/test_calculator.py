@@ -1,12 +1,13 @@
 from unittest import TestCase
 
-from calculator import *
+from main.calculator.services.calculator import *
+
 
 class Test(TestCase):
     def test_calculate(self):
         self.assertEqual(1.0, calculate("1"))
         self.assertEqual(4.0, calculate("2+2"))
-        self.assertEqual(6.0, calculate("2*3"))
+        self.assertEqual(6.0, calculate("2x3"))
         self.assertEqual(140.88888888888889, calculate("122 + 34 * 5 / 9"))
 
     def test_generate_expression_list(self):

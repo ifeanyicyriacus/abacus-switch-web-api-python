@@ -2,6 +2,8 @@ def generate_expression_list(expression: str) -> list:
     # handle polarity of number, at the beginning, the last non-operator-operator eval("----2")
 
     expression = expression.replace(" ", "")
+    expression = expression.replace("x", "*")
+
     new_list = []
     temp = ""
     for character in expression:
