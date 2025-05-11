@@ -45,6 +45,7 @@ def __resolved_expression(expression_list, index, operation) -> list:
     expression_list = expression_list[:index - 1] + [str(new_element)] + expression_list[index + 2:]
     return expression_list
 
+
 def _evaluate_operation(expression_list: list[str], operator: str) -> list[str]:
     for index, element in enumerate(expression_list):
         if element == operator and len(expression_list) > 1:
@@ -52,44 +53,25 @@ def _evaluate_operation(expression_list: list[str], operator: str) -> list[str]:
             return _evaluate_operation(expression_list, operator)
     return expression_list
 
+
 def evaluate_multiplications(expression_list: list[str]) -> list[str]:
     return _evaluate_operation(expression_list, "*")
 
 
 def evaluate_divisions(expression_list) -> list:
-    operator = "/"
-    for index, element in enumerate(expression_list):
-        if element == operator and len(expression_list) > 1:
-            expression_list = __resolved_expression(expression_list=expression_list, index=index, operation=operator)
-            return evaluate_divisions(expression_list)
-    return expression_list
+    return _evaluate_operation(expression_list, "/")
 
 
 def evaluate_remainders(expression_list: list) -> list:
-    operator = "%"
-    for index, element in enumerate(expression_list):
-        if element == operator and len(expression_list) > 1:
-            expression_list = __resolved_expression(expression_list=expression_list, index=index, operation=operator)
-            return evaluate_remainders(expression_list)
-    return expression_list
+    return _evaluate_operation(expression_list, "%")
 
 
 def evaluate_additions(expression_list: list) -> list:
-    operator = "+"
-    for index, element in enumerate(expression_list):
-        if element == operator and len(expression_list) > 1:
-            expression_list = __resolved_expression(expression_list=expression_list, index=index, operation=operator)
-            return evaluate_additions(expression_list)
-    return expression_list
+    return _evaluate_operation(expression_list, "+")
 
 
 def evaluate_subtractions(expression_list: list) -> list:
-    operator = "-"
-    for index, element in enumerate(expression_list):
-        if element == operator and len(expression_list) > 1:
-            expression_list = __resolved_expression(expression_list=expression_list, index=index, operation=operator)
-            return evaluate_subtractions(expression_list)
-    return expression_list
+    return _evaluate_operation(expression_list, "-")
 
 
 def calculate(expression: str) -> float:
