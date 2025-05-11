@@ -168,21 +168,31 @@ class Test(TestCase):
         expected = ["9", "%", "85.0"]
         self.assertListEqual(actual, expected)
 
-    # def test_evaluation_polarity(self):
-    #     sample = "+1"
-    #     actual = evaluation_polarity(sample)
-    #     expected = "1"
-    #     self.assertEqual(actual, expected)
-    #
-    #     sample = "++2"
-    #     actual = evaluation_polarity(sample)
-    #     expected = "2"
-    #     self.assertEqual(actual, expected)
-    #
-    #     sample = "+++3"
-    #     actual = evaluation_polarity(sample)
-    #     expected = "3"
-    #     self.assertEqual(actual, expected)
-    #
-    # def test_evaluate_parenthesis(self):
-    #     self.fail()
+    def test_evaluation_polarity(self):
+        sample = "+1"
+        actual = evaluation_polarity(sample)
+        expected = "+1"
+        self.assertEqual(actual, expected)
+
+        sample = "++2"
+        actual = evaluation_polarity(sample)
+        expected = "+2"
+        self.assertEqual(actual, expected)
+
+        sample = "+++3"
+        actual = evaluation_polarity(sample)
+        expected = "+3"
+        self.assertEqual(actual, expected)
+
+        sample = "+-3"
+        actual = evaluation_polarity(sample)
+        expected = "-3"
+        self.assertEqual(actual, expected)
+
+        sample = "--3"
+        actual = evaluation_polarity(sample)
+        expected = "+3"
+        self.assertEqual(actual, expected)
+
+    def test_evaluate_parenthesis(self):
+        self.fail()

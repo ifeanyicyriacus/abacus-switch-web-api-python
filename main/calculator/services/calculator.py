@@ -6,6 +6,15 @@ def replace_math_symbol_with_language_operator(expression):
     expression = expression.replace("mod", "%")
     return expression
 
+def evaluation_polarity(expression:str) -> str:
+    for index, char in enumerate(expression):
+        if len(expression) > index + 1 and char in ["+", "-"] and char == expression[index + 1]:
+            expression = expression[:index] + "+" + expression[index + 2:]
+            return evaluation_polarity(expression)
+        elif len(expression) > index + 1 and char in ["+", "-"] and expression[index + 1] in ["+", "-"] and char != expression[index + 1]:
+            expression = expression[:index] + "-" + expression[index + 2:]
+            return evaluation_polarity(expression)
+    return expression
 
 def generate_expression_list(expression: str) -> list:
     # handle polarity of number, at the beginning, the last non-operator-operator eval("----2")
