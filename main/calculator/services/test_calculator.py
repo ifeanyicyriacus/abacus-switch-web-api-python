@@ -9,22 +9,27 @@ class Test(TestCase):
         self.assertEqual(4.0, calculate("2+2"))
         self.assertEqual(6000000.0, calculate("2x3000000"))
         self.assertEqual(140.88888888888889, calculate("122 + 34 * 5 / 9"))
+        self.assertEqual(136.0, calculate("(7+3^2)x34÷4"))
 
     def test_generate_expression_list(self):
         actual = generate_expression_list("12")
         expected = ["12"]
         self.assertListEqual(actual, expected)
 
-        actual = generate_expression_list("12 + 2")
+        actual = generate_expression_list("12+2")
         expected = ["12", "+", "2"]
         self.assertListEqual(actual, expected)
 
-        actual = generate_expression_list("122 + 34 * 5 / 9 ")
+        actual = generate_expression_list("122+34*5/9")
         expected = ["122", "+", "34", "*", "5", "/", "9"]
         self.assertListEqual(actual, expected)
 
-        actual = generate_expression_list("122 + 34 ! * 5 ^ 2 / 9 ")
+        actual = generate_expression_list("122+34!*5^2/9")
         expected = ["122", "+", "34", "!", "*", "5", "^", "2", "/", "9"]
+        self.assertListEqual(actual, expected)
+
+        actual = generate_expression_list("!%^*()-+/*√")
+        expected = ["!", "%", "^", "*", "(", ")", "-", "+", "/", "*", "√"]
         self.assertListEqual(actual, expected)
 
     def test_evaluate_multiplications(self):
@@ -248,7 +253,7 @@ class Test(TestCase):
 
         sample = ["√", "36", "+", "36"]
         actual = evaluate_square_roots(sample)
-        expected = ["6.0" , "+", "36"]
+        expected = ["6.0", "+", "36"]
         self.assertListEqual(actual, expected)
 
         sample = ["3", "-", "√", "36"]
@@ -257,5 +262,17 @@ class Test(TestCase):
         self.assertListEqual(actual, expected)
 
     def test_evaluate_parenthesis(self):
+        sample = ["12"]
+        actual = evaluate_parenthesis(sample)
+        expected = ["12"]
+        self.assertListEqual(actual, expected)
 
-        pass
+        sample = ["(", "12", ")"]
+        actual = evaluate_parenthesis(sample)
+        expected = ["12.0"]
+        self.assertListEqual(actual, expected)
+
+        sample = ["12", "+", "(", "3", "+", "5", "+", "1", ")", "+", "19"]
+        actual = evaluate_parenthesis(sample)
+        expected = ["12", "+", "9.0", "+", "19"]
+        self.assertListEqual(actual, expected)
