@@ -41,11 +41,8 @@ def generate_expression_list(expression: str) -> list:
 
 
 def _calculate_factorials(a: int) -> int:
-    result = a
-    while a > 1:
-        a = a - 1
-        return result * _calculate_factorials(a)
-    return result
+    if a == 0: return 1
+    return a * _calculate_factorials(a - 1)
 
 
 def __resolved_expression(expression_list: [str], index: int, operation: str) -> [str]:
@@ -108,11 +105,12 @@ def _resolve_parenthesis(expression_list: [str], index: int) -> [str]:
 
 
 def _get_index_of_last_opening_parenthesis_before_index(expression_list: [str], closing_parenthesis_index: int) -> int:
-    sub_expression_list = expression_list[:closing_parenthesis_index]
-    sub_expression_list.reverse()
-    index_of_open_parenthesis_on_reverse_list = sub_expression_list.index("(")
-    INDEX_OFF_BY_ONE = 1
-    return len(sub_expression_list) - index_of_open_parenthesis_on_reverse_list - INDEX_OFF_BY_ONE
+    i = closing_parenthesis_index - 1
+    while i >= 0:
+        if expression_list[i] == "(":
+            return i
+        i -= 1
+    raise ValueError("Parenthesis pair not found")
 
 
 def _evaluate_operation(expression_list: list[str], operator: str) -> list[str]:

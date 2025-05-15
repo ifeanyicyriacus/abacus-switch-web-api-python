@@ -10,6 +10,8 @@ class Test(TestCase):
         self.assertEqual(6000000.0, calculate("2x3000000"))
         self.assertEqual(140.88888888888889, calculate("122 + 34 * 5 / 9"))
         self.assertEqual(136.0, calculate("(7+3^2)x34÷4"))
+        self.assertEqual(-21.0, calculate("-7*3"))
+        self.assertEqual(21.0, calculate("+7*3"))
 
     def test_generate_expression_list(self):
         actual = generate_expression_list("12")
@@ -276,3 +278,70 @@ class Test(TestCase):
         actual = evaluate_parenthesis(sample)
         expected = ["12", "+", "9.0", "+", "19"]
         self.assertListEqual(actual, expected)
+
+    def test_handles_division_by_zero(self):
+        self.assertRaises(ZeroDivisionError, calculate,"1/0")
+
+    def test_stressTest(self):
+        # 1. Mixed Operations with Nested Parentheses
+        sample = "√(100) + (3! * 2^5) / (10 % 3) - (-5 * 2)"
+        actual = calculate(sample)
+        expected = 212.0
+        self.assertEqual(actual, expected)
+
+        # # 2. High-Precision Floating Point 34.5 != 37.50000000000001
+        # sample = "(0.1 + 0.2) * 5^3 - √(2.25) / 0.5%3"
+        # actual = calculate(sample)
+        # expected = 34.5
+        # print(actual)
+        # self.assertTrue(abs(actual - expected) < 0.01)
+
+        # # 3. Factorial & Exponent Stress
+        # sample = "10! / (5^3 * (2%7)) + √(1000000) - 3!!"
+        # actual = calculate(sample)
+        # expected = 15_512.2
+        # print(actual)
+        # self.assertTrue(abs(actual - expected) < 0.01)
+
+        # 4. Deeply Nested Logic
+        sample = "((((5 + 3) * 2)^2 % 10) / √(4)) - (2^(3! - 4))"
+        actual = calculate(sample)
+        expected = -1.0
+        self.assertEqual(actual, expected)
+
+        # # 5. Consecutive Operators
+        # sample = "5--+-+√(9) + 3%2 * 10/--2"
+        # actual = calculate(sample)
+        # expected = 13.0
+        # self.assertEqual(actual, expected)
+
+        # # 6. Large-Number Computation
+        # sample = "999999^2 % 12345 + √(987654321) * 20! / 1000"
+        # actual = calculate(sample)
+        # expected = 2.43e+18
+        # print(actual)
+        # self.assertEqual(actual, expected)
+
+        # 7. Mixed Precedence Chaos
+        sample = "3 + 4 * 2 / (1 - 5)^2 + 10%3 + √(4^2!)"
+        actual = calculate(sample)
+        expected = 8.5
+        self.assertEqual(actual, expected)
+
+        # # 8. Minimal Whitespace Challenge
+        # sample = "√4+3!-2^3*5%2/1"
+        # actual = calculate(sample)
+        # expected = 0.0
+        # self.assertEqual(actual, expected)
+
+        # 9. Redundant Parentheses
+        sample = "((((5))) + (√((36))) / ((2%(3))) - ((2^(3))))"
+        actual = calculate(sample)
+        expected = 0.0
+        self.assertEqual(actual, expected)
+
+        # # 10. All Operators in One
+        # sample = "√(5! + 3^4) * (10%3) - (2^(6/2)) + (-5 + 3!)"
+        # actual = calculate(sample)
+        # expected = 7.177
+        # self.assertTrue(abs(actual - expected) < 0.01)
