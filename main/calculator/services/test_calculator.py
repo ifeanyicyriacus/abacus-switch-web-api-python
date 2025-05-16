@@ -2,7 +2,6 @@ from unittest import TestCase
 
 from main.calculator.services.calculator import *
 
-
 class Test(TestCase):
     def test_calculate(self):
         self.assertEqual(1.0, calculate("1"))

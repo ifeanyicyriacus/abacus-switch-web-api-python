@@ -15,7 +15,6 @@ def evaluate_expression():
     if expression == "":
         return jsonify({"error": "expression cannot be empty"})
 
-    # print(expression)
     try:
         result = calculate(expression)
         return jsonify({"result": str(result)}), 200
@@ -25,4 +24,4 @@ def evaluate_expression():
         return jsonify({"error": "Calculation error"}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
