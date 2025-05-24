@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from main.calculator.services.calculator import *
+from main.calculator.calculator import *
 
 class Test(TestCase):
     def test_calculate(self):
@@ -59,7 +59,7 @@ class Test(TestCase):
         expected = ["2", "+", "8.0"]
         self.assertListEqual(actual, expected)
 
-    def test_evaluate_division(self):
+    def test_evaluate_divisions(self):
         sample = ["12"]
         actual = evaluate_divisions(sample)
         expected = ["12"]
@@ -85,7 +85,7 @@ class Test(TestCase):
         expected = ["2", "+", "0.5"]
         self.assertListEqual(actual, expected)
 
-    def test_evaluate_remainder(self):
+    def test_evaluate_remainders(self):
         sample = ["12"]
         actual = evaluate_remainders(sample)
         expected = ["12"]
@@ -178,7 +178,7 @@ class Test(TestCase):
         expected = ["9", "%", "85.0"]
         self.assertListEqual(actual, expected)
 
-    def test_evaluation_polarity(self):
+    def test_evaluation_polarities(self):
         sample = "+1"
         actual = evaluate_polarity(sample)
         expected = "+1"
