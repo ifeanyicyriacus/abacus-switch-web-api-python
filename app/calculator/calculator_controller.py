@@ -1,15 +1,10 @@
-import os
+from flask import jsonify, request, Blueprint
+from app.calculator.calculator import calculate
 
-from flask import Flask, jsonify, request
-from flask_cors import CORS
-
-from main.calculator.calculator import calculate
-
-app = Flask(__name__)
-CORS(app)
+calculate_controller_bp = Blueprint("calculate_controller_bp", __name__)
 
 
-@app.route("/calculate", methods=['POST'])
+@calculate_controller_bp.route("/calculate", methods=["POST"])
 def evaluate_expression():
     data: dict = request.get_json(force=True)
     # expression = data["expression"]
@@ -24,7 +19,3 @@ def evaluate_expression():
         return jsonify({"error": str(e)}), 400
     except Exception as e:
         return jsonify({"error": "Calculation error"}), 500
-
-if __name__ == "__main__":
-    port = os.environ.get("PORT", 5000)
-    app.run(host="0.0.0.0", port=port)
